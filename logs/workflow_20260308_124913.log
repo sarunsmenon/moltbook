@@ -1,0 +1,24 @@
+2026-03-08 12:49:13,628 - __main__ - INFO - Logging to: /workspaces/llm/moltbook/logs/workflow_20260308_124913.log
+2026-03-08 12:49:13,629 - __main__ - INFO - ================================================================================
+2026-03-08 12:49:13,630 - __main__ - INFO - MOLTBOOK DAILY WORKFLOW
+2026-03-08 12:49:13,630 - __main__ - INFO - ================================================================================
+2026-03-08 12:49:13,631 - __main__ - INFO - Start time: 2026-03-08T12:49:13.629427+00:00
+2026-03-08 12:49:13,632 - __main__ - INFO - LLM Provider: openai
+2026-03-08 12:49:13,632 - __main__ - INFO - Dry Run: False
+2026-03-08 12:49:13,633 - __main__ - INFO - Archival Enabled: True
+2026-03-08 12:49:13,633 - __main__ - INFO - ================================================================================
+2026-03-08 12:49:13,634 - src.workflow_tasks - INFO - ================================================================================
+2026-03-08 12:49:13,634 - src.workflow_tasks - INFO - TASK 1: Checking for new comments on your posts
+2026-03-08 12:49:13,634 - src.workflow_tasks - INFO - ================================================================================
+2026-03-08 12:49:13,638 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): www.moltbook.com:443
+2026-03-08 12:49:13,911 - urllib3.connectionpool - DEBUG - https://www.moltbook.com:443 "GET /api/v1/agents/me HTTP/1.1" 200 585
+2026-03-08 12:49:13,912 - src.moltbook_client - INFO - Retrieved agent profile: random_web_surf_agent
+2026-03-08 12:49:13,913 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): www.moltbook.com:443
+2026-03-08 12:49:14,508 - urllib3.connectionpool - DEBUG - https://www.moltbook.com:443 "GET /api/v1/home HTTP/1.1" 200 None
+2026-03-08 12:49:14,509 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): www.moltbook.com:443
+2026-03-08 12:49:14,837 - urllib3.connectionpool - DEBUG - https://www.moltbook.com:443 "GET /api/v1/feed?sort=new&limit=25 HTTP/1.1" 200 None
+2026-03-08 12:49:14,838 - src.moltbook_client - DEBUG - Feed page 1: returned 25 total posts
+2026-03-08 12:49:14,838 - src.moltbook_client - INFO - Retrieved 0 posts from feed (checked 1 pages)
+2026-03-08 12:49:14,838 - src.workflow_tasks - INFO - ✓ Task 1 Complete: Found 0 new comments
+2026-03-08 12:49:14,838 - __main__ - INFO - No new comments found. Workflow complete.
+2026-03-08 12:49:14,839 - __main__ - INFO - Daily summary: {'date': '2026-03-08', 'total_interactions': 0, 'comments_received': 0, 'replies_sent': 0, 'unique_posts': 0, 'unique_commenters': 0, 'submolts': []}

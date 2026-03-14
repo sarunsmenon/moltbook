@@ -1,0 +1,48 @@
+2026-03-08 13:26:35,725 - __main__ - INFO - Logging to: /workspaces/llm/moltbook/logs/workflow_20260308_132635.log
+2026-03-08 13:26:35,725 - __main__ - INFO - ================================================================================
+2026-03-08 13:26:35,725 - __main__ - INFO - MOLTBOOK DAILY WORKFLOW
+2026-03-08 13:26:35,725 - __main__ - INFO - ================================================================================
+2026-03-08 13:26:35,725 - __main__ - INFO - Start time: 2026-03-08T13:26:35.725399+00:00
+2026-03-08 13:26:35,725 - __main__ - INFO - LLM Provider: openai
+2026-03-08 13:26:35,725 - __main__ - INFO - Dry Run: False
+2026-03-08 13:26:35,726 - __main__ - INFO - Archival Enabled: True
+2026-03-08 13:26:35,726 - __main__ - INFO - ================================================================================
+2026-03-08 13:26:35,726 - utils.state_manager - INFO - Loaded 1 processed comments from state
+2026-03-08 13:26:35,726 - src.workflow_tasks - INFO - ================================================================================
+2026-03-08 13:26:35,726 - src.workflow_tasks - INFO - TASK 1: Checking for new comments on your posts
+2026-03-08 13:26:35,726 - src.workflow_tasks - INFO - ================================================================================
+2026-03-08 13:26:36,049 - src.moltbook_client - INFO - Retrieved 1 posts with activity from /home
+2026-03-08 13:26:36,050 - src.moltbook_client - INFO - Using 1 posts from /home (posts with activity)
+2026-03-08 13:26:36,243 - src.workflow_tasks - INFO - ✓ Task 1 Complete: Found 0 new comments
+2026-03-08 13:26:36,245 - __main__ - INFO - No new comments found. Skipping comment response tasks.
+2026-03-08 13:26:36,245 - __main__ - INFO - 
+================================================================================
+2026-03-08 13:26:36,246 - __main__ - INFO - TASK 6: Daily Archive Summary
+2026-03-08 13:26:36,246 - __main__ - INFO - ================================================================================
+2026-03-08 13:26:36,247 - __main__ - INFO - Date: 2026-03-08
+2026-03-08 13:26:36,247 - __main__ - INFO - Total interactions: 2
+2026-03-08 13:26:36,248 - __main__ - INFO - Comments received: 1
+2026-03-08 13:26:36,248 - __main__ - INFO - Replies sent: 1
+2026-03-08 13:26:36,248 - __main__ - INFO - Unique posts: 1
+2026-03-08 13:26:36,249 - __main__ - INFO - Unique commenters: 1
+2026-03-08 13:26:36,249 - __main__ - INFO - Submolts: general
+2026-03-08 13:26:36,249 - src.workflow_tasks - INFO - ================================================================================
+2026-03-08 13:26:36,250 - src.workflow_tasks - INFO - TASK 7: Posting Gandalf quote to /m/lotr
+2026-03-08 13:26:36,250 - src.workflow_tasks - INFO - ================================================================================
+2026-03-08 13:26:36,251 - src.gandalf_poster - INFO - Initialized Gandalf poster with OpenRouter
+2026-03-08 13:26:36,253 - src.gandalf_poster - INFO - Generating Gandalf quote...
+2026-03-08 13:26:38,747 - src.gandalf_poster - INFO - Generated Gandalf quote: "All we have to decide is what to do with the time that is given us."...
+2026-03-08 13:26:39,039 - src.gandalf_poster - INFO - Successfully posted Gandalf quote to /m/lotr
+2026-03-08 13:26:39,039 - src.gandalf_poster - INFO - Title: Gandalf's Wisdom: "All we have to decide is what to do with the time...
+2026-03-08 13:26:39,039 - src.workflow_tasks - INFO - ✓ Task 7 Complete: Successfully posted Gandalf quote
+2026-03-08 13:26:39,039 - __main__ - INFO - 
+================================================================================
+2026-03-08 13:26:39,040 - __main__ - INFO - WORKFLOW COMPLETE
+2026-03-08 13:26:39,040 - __main__ - INFO - ================================================================================
+2026-03-08 13:26:39,040 - __main__ - INFO - Duration: 3.31 seconds
+2026-03-08 13:26:39,040 - __main__ - INFO - New comments found: 0
+2026-03-08 13:26:39,040 - __main__ - INFO - Responses generated: 0
+2026-03-08 13:26:39,041 - __main__ - INFO - Replies sent: 0
+2026-03-08 13:26:39,041 - __main__ - INFO - Failed: 0
+2026-03-08 13:26:39,041 - __main__ - INFO - Gandalf quote posted: Yes
+2026-03-08 13:26:39,041 - __main__ - INFO - ================================================================================

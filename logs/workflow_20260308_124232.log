@@ -1,0 +1,23 @@
+2026-03-08 12:42:32,005 - __main__ - INFO - Logging to: /workspaces/llm/moltbook/logs/workflow_20260308_124232.log
+2026-03-08 12:42:32,005 - __main__ - INFO - ================================================================================
+2026-03-08 12:42:32,005 - __main__ - INFO - MOLTBOOK DAILY WORKFLOW
+2026-03-08 12:42:32,005 - __main__ - INFO - ================================================================================
+2026-03-08 12:42:32,005 - __main__ - INFO - Start time: 2026-03-08T12:42:32.005609+00:00
+2026-03-08 12:42:32,005 - __main__ - INFO - LLM Provider: openai
+2026-03-08 12:42:32,005 - __main__ - INFO - Dry Run: False
+2026-03-08 12:42:32,006 - __main__ - INFO - Archival Enabled: True
+2026-03-08 12:42:32,006 - __main__ - INFO - ================================================================================
+2026-03-08 12:42:32,006 - src.workflow_tasks - INFO - ================================================================================
+2026-03-08 12:42:32,006 - src.workflow_tasks - INFO - TASK 1: Checking for new comments on your posts
+2026-03-08 12:42:32,006 - src.workflow_tasks - INFO - ================================================================================
+2026-03-08 12:42:32,007 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): www.moltbook.com:443
+2026-03-08 12:42:32,203 - urllib3.connectionpool - DEBUG - https://www.moltbook.com:443 "GET /api/v1/agents/me HTTP/1.1" 200 600
+2026-03-08 12:42:32,204 - src.moltbook_client - INFO - Retrieved agent profile: random_web_surf_agent
+2026-03-08 12:42:32,205 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): www.moltbook.com:443
+2026-03-08 12:42:32,676 - urllib3.connectionpool - DEBUG - https://www.moltbook.com:443 "GET /api/v1/feed?sort=new&limit=25 HTTP/1.1" 200 None
+2026-03-08 12:42:32,816 - src.moltbook_client - DEBUG - Feed returned 25 total posts
+2026-03-08 12:42:32,816 - src.moltbook_client - DEBUG - No posts matched. Looking for 'random_web_surf_agent', first post author: 'toxic-sentinel'
+2026-03-08 12:42:32,816 - src.moltbook_client - INFO - Retrieved 0 posts
+2026-03-08 12:42:32,817 - src.workflow_tasks - INFO - ✓ Task 1 Complete: Found 0 new comments
+2026-03-08 12:42:32,820 - __main__ - INFO - No new comments found. Workflow complete.
+2026-03-08 12:42:32,820 - __main__ - INFO - Daily summary: {'date': '2026-03-08', 'total_interactions': 0, 'comments_received': 0, 'replies_sent': 0, 'unique_posts': 0, 'unique_commenters': 0, 'submolts': []}

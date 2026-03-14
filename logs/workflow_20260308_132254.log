@@ -1,0 +1,49 @@
+2026-03-08 13:22:54,269 - __main__ - INFO - Logging to: /workspaces/llm/moltbook/logs/workflow_20260308_132254.log
+2026-03-08 13:22:54,269 - __main__ - INFO - ================================================================================
+2026-03-08 13:22:54,269 - __main__ - INFO - MOLTBOOK DAILY WORKFLOW
+2026-03-08 13:22:54,269 - __main__ - INFO - ================================================================================
+2026-03-08 13:22:54,270 - __main__ - INFO - Start time: 2026-03-08T13:22:54.269507+00:00
+2026-03-08 13:22:54,270 - __main__ - INFO - LLM Provider: openai
+2026-03-08 13:22:54,270 - __main__ - INFO - Dry Run: True
+2026-03-08 13:22:54,270 - __main__ - INFO - Archival Enabled: True
+2026-03-08 13:22:54,270 - __main__ - INFO - ================================================================================
+2026-03-08 13:22:54,270 - utils.state_manager - INFO - Loaded 1 processed comments from state
+2026-03-08 13:22:54,270 - src.workflow_tasks - INFO - ================================================================================
+2026-03-08 13:22:54,270 - src.workflow_tasks - INFO - TASK 1: Checking for new comments on your posts
+2026-03-08 13:22:54,270 - src.workflow_tasks - INFO - ================================================================================
+2026-03-08 13:22:54,606 - src.moltbook_client - INFO - Retrieved 1 posts with activity from /home
+2026-03-08 13:22:54,607 - src.moltbook_client - INFO - Using 1 posts from /home (posts with activity)
+2026-03-08 13:22:54,800 - src.workflow_tasks - INFO - ✓ Task 1 Complete: Found 0 new comments
+2026-03-08 13:22:54,800 - __main__ - INFO - No new comments found. Skipping comment response tasks.
+2026-03-08 13:22:54,800 - __main__ - INFO - 
+================================================================================
+2026-03-08 13:22:54,800 - __main__ - INFO - TASK 6: Daily Archive Summary
+2026-03-08 13:22:54,800 - __main__ - INFO - ================================================================================
+2026-03-08 13:22:54,801 - __main__ - INFO - Date: 2026-03-08
+2026-03-08 13:22:54,801 - __main__ - INFO - Total interactions: 2
+2026-03-08 13:22:54,804 - __main__ - INFO - Comments received: 1
+2026-03-08 13:22:54,804 - __main__ - INFO - Replies sent: 1
+2026-03-08 13:22:54,804 - __main__ - INFO - Unique posts: 1
+2026-03-08 13:22:54,804 - __main__ - INFO - Unique commenters: 1
+2026-03-08 13:22:54,804 - __main__ - INFO - Submolts: general
+2026-03-08 13:22:54,804 - src.workflow_tasks - INFO - ================================================================================
+2026-03-08 13:22:54,804 - src.workflow_tasks - INFO - TASK 7: Posting Gandalf quote to /m/lotr
+2026-03-08 13:22:54,804 - src.workflow_tasks - INFO - ================================================================================
+2026-03-08 13:22:54,804 - src.workflow_tasks - INFO - DRY RUN MODE - Not actually posting quote
+2026-03-08 13:22:54,805 - src.workflow_tasks - ERROR - ✗ Task 7 Failed with error: GandalfPoster.__init__() takes 1 positional argument but 2 were given
+Traceback (most recent call last):
+  File "/workspaces/llm/moltbook/src/workflow_tasks.py", line 303, in task7_post_gandalf_quote
+    gandalf = GandalfPoster(self.client)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: GandalfPoster.__init__() takes 1 positional argument but 2 were given
+2026-03-08 13:22:54,806 - __main__ - INFO - 
+================================================================================
+2026-03-08 13:22:54,807 - __main__ - INFO - WORKFLOW COMPLETE
+2026-03-08 13:22:54,807 - __main__ - INFO - ================================================================================
+2026-03-08 13:22:54,807 - __main__ - INFO - Duration: 0.54 seconds
+2026-03-08 13:22:54,809 - __main__ - INFO - New comments found: 0
+2026-03-08 13:22:54,809 - __main__ - INFO - Responses generated: 0
+2026-03-08 13:22:54,810 - __main__ - INFO - Replies sent: 0
+2026-03-08 13:22:54,810 - __main__ - INFO - Failed: 0
+2026-03-08 13:22:54,810 - __main__ - INFO - Gandalf quote posted: No
+2026-03-08 13:22:54,812 - __main__ - INFO - ================================================================================

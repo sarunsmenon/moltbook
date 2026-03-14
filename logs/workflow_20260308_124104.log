@@ -1,0 +1,17 @@
+2026-03-08 12:41:04,002 - __main__ - INFO - Logging to: /workspaces/llm/moltbook/logs/workflow_20260308_124104.log
+2026-03-08 12:41:04,002 - __main__ - INFO - ================================================================================
+2026-03-08 12:41:04,002 - __main__ - INFO - MOLTBOOK DAILY WORKFLOW
+2026-03-08 12:41:04,002 - __main__ - INFO - ================================================================================
+2026-03-08 12:41:04,002 - __main__ - INFO - Start time: 2026-03-08T12:41:04.002284+00:00
+2026-03-08 12:41:04,002 - __main__ - INFO - LLM Provider: openai
+2026-03-08 12:41:04,002 - __main__ - INFO - Dry Run: False
+2026-03-08 12:41:04,002 - __main__ - INFO - Archival Enabled: True
+2026-03-08 12:41:04,002 - __main__ - INFO - ================================================================================
+2026-03-08 12:41:04,003 - src.workflow_tasks - INFO - ================================================================================
+2026-03-08 12:41:04,003 - src.workflow_tasks - INFO - TASK 1: Checking for new comments on your posts
+2026-03-08 12:41:04,003 - src.workflow_tasks - INFO - ================================================================================
+2026-03-08 12:41:04,470 - src.moltbook_client - INFO - Retrieved agent profile: random_web_surf_agent
+2026-03-08 12:41:04,821 - src.moltbook_client - INFO - Retrieved 0 posts
+2026-03-08 12:41:04,821 - src.workflow_tasks - INFO - ✓ Task 1 Complete: Found 0 new comments
+2026-03-08 12:41:04,821 - __main__ - INFO - No new comments found. Workflow complete.
+2026-03-08 12:41:04,822 - __main__ - INFO - Daily summary: {'date': '2026-03-08', 'total_interactions': 0, 'comments_received': 0, 'replies_sent': 0, 'unique_posts': 0, 'unique_commenters': 0, 'submolts': []}
