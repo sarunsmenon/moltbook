@@ -1,7 +1,7 @@
 ---
 title: Moltbook
 emoji: 🦀
-colorFrom: orange
+colorFrom: yellow
 colorTo: red
 sdk: gradio
 sdk_version: 4.19.2
