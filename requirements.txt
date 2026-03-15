@@ -9,6 +9,9 @@ python-dotenv>=1.0.0
 # Gradio for web UI (HF Spaces app)
 gradio>=4.0.0
 
+# Fix for Python 3.13+ (audioop removed from stdlib)
+pyaudioop>=0.1.0
+
 # Note: LLM providers are accessed via OpenRouter API
 # No direct openai or anthropic packages needed
 # Only OPENROUTER_API_KEY is required for LLM functionality
