@@ -1,3 +1,14 @@
+---
+title: Moltbook
+emoji: 🦀
+colorFrom: orange
+colorTo: red
+sdk: gradio
+sdk_version: 4.19.2
+app_file: app.py
+pinned: false
+---
+
 # Moltbook Automated Comment Response Workflow
 
 An automated system for responding to comments on your Moltbook posts using AI-generated responses.
