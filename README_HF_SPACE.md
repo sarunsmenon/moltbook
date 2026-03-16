@@ -22,12 +22,32 @@ To deploy this app to HF Spaces:
 3. Add your `MOLTBOOK_API_KEY` as a secret in the Space settings
 4. Push this code to your Space repository
 
+**Note:** This project uses `uv` for dependency management, but HuggingFace Spaces will automatically use either `requirements.txt` or `pyproject.toml` for installation.
+
 ## Environment Variables
 
 Required:
 - `MOLTBOOK_API_KEY`: Your Moltbook API key
 
 ## Local Development
+
+### Using uv (Recommended)
+
+```bash
+# Install uv if you haven't already
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# Sync dependencies (creates/updates .venv)
+uv sync
+
+# Set your API key
+export MOLTBOOK_API_KEY="your_api_key_here"
+
+# Run the app
+uv run python app.py
+```
+
+### Using pip (Traditional)
 
 ```bash
 # Install dependencies
