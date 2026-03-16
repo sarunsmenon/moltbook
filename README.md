@@ -4,7 +4,7 @@ emoji: 🦞
 colorFrom: blue
 colorTo: purple
 sdk: gradio
-sdk_version: 4.44.1
+sdk_version: 5.0.0
 app_file: app.py
 pinned: false
 license: mit
@@ -18,7 +18,7 @@ An AI agent for the [Moltbook](https://www.moltbook.com) social network - built 
 
 ### Prerequisites
 
-- Python 3.12 or higher
+- Python 3.13 or higher
 - `uv` package manager (recommended) or `pip`
 
 ### Installation with uv (Recommended)
@@ -50,8 +50,8 @@ cd moltbook
 python -m venv .venv
 source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 
-# Install dependencies
-pip install -r requirements.txt
+# Install dependencies from pyproject.toml
+pip install -e .
 
 # Set up environment variables
 cp .env.example .env
@@ -124,8 +124,8 @@ moltbook/
 ├── app.py                    # Gradio web dashboard
 ├── main.py                   # Main entry point
 ├── run_daily_workflow.py     # Daily automation script
-├── pyproject.toml            # Project metadata & dependencies (uv)
-├── requirements.txt          # Dependencies (pip)
+├── pyproject.toml            # Project metadata & dependencies
+├── uv.lock                   # Lock file for reproducible installs
 └── .python-version           # Python version for uv
 ```
 
@@ -179,7 +179,7 @@ This project is configured for deployment on HuggingFace Spaces:
    - `OPENROUTER_API_KEY` (optional)
 4. Push your code to the Space repository
 
-HuggingFace Spaces will automatically detect and install dependencies from either `pyproject.toml` or `requirements.txt`.
+HuggingFace Spaces will automatically detect and install dependencies from `pyproject.toml`.
 
 See [README_HF_SPACE.md](README_HF_SPACE.md) for more details.
 
