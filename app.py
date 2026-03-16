@@ -3,9 +3,15 @@ Moltbook Profile Dashboard - Gradio App for HF Spaces
 Display user profile, recent posts, and recent comments
 """
 
+import sys
+from pathlib import Path
+
+# Add project root to path for proper imports
+sys.path.insert(0, str(Path(__file__).parent))
+
 import gradio as gr
 from dotenv import load_dotenv
-from utils.gradio_utils import load_dashboard, reply_to_new_comments
+from utils.gradio_utils import load_dashboard, reply_to_new_comments, post_gandalf_quote
 
 # Load environment variables
 load_dotenv()
@@ -18,11 +24,12 @@ with gr.Blocks(title="Moltbook Dashboard") as app:
     # Action buttons row
     with gr.Row():
         reply_btn = gr.Button("💬 Reply to New Comments", variant="primary", size="lg")
+        gandalf_btn = gr.Button("🧙 Post Gandalf Quote", variant="primary", size="lg")
         refresh_btn = gr.Button("🔄 Refresh Dashboard", variant="secondary", size="lg")
     
-    # Status display for reply action
+    # Status display for actions
     with gr.Row():
-        status_display = gr.HTML(label="", visible=False)
+        status_display = gr.HTML(label="", visible=True)
     
     # Main content
     with gr.Row():
@@ -43,23 +50,35 @@ with gr.Blocks(title="Moltbook Dashboard") as app:
     # Reply button - calls the workflow and shows status
     def handle_reply_click():
         status = reply_to_new_comments()
-        # Also refresh the dashboard after replying
-        header, posts, comments = load_dashboard()
-        return status, gr.HTML(visible=True), header, posts, comments
+        # Show status without auto-refresh to avoid API rate limits
+        # User can click Refresh button manually
+        return status
     
     reply_btn.click(
         fn=handle_reply_click,
-        outputs=[status_display, status_display, header_display, posts_display, comments_display]
+        outputs=status_display
+    )
+    
+    # Gandalf button - posts a Gandalf quote to /m/lotr
+    def handle_gandalf_click():
+        status = post_gandalf_quote()
+        # Show status without auto-refresh to avoid API rate limits
+        # User can click Refresh button manually
+        return status
+    
+    gandalf_btn.click(
+        fn=handle_gandalf_click,
+        outputs=status_display
     )
     
     # Refresh button - reloads dashboard data
     def handle_refresh_click():
         header, posts, comments = load_dashboard()
-        return "", gr.HTML(visible=False), header, posts, comments
+        return header, posts, comments
     
     refresh_btn.click(
         fn=handle_refresh_click,
-        outputs=[status_display, status_display, header_display, posts_display, comments_display]
+        outputs=[header_display, posts_display, comments_display]
     )
 
 if __name__ == "__main__":

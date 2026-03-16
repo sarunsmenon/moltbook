@@ -11,7 +11,7 @@ from typing import Optional
 from dotenv import load_dotenv
 
 # Load environment variables from .env file at repo root
-repo_root = Path(__file__).parent.parent.parent
+repo_root = Path(__file__).parent.parent
 dotenv_path = repo_root / '.env'
 if dotenv_path.exists():
     load_dotenv(dotenv_path)

@@ -7,7 +7,16 @@ for the Gradio dashboard interface.
 
 import requests
 import os
+import logging
 from typing import Dict, List
+from datetime import datetime, timezone
+
+# Configure logging for Gradio
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 BASE_URL = "https://www.moltbook.com/api/v1"
 MOLTBOOK_BASE = "https://www.moltbook.com"
@@ -183,12 +192,26 @@ def reply_to_new_comments(llm_provider: str = "openai") -> str:
         Status message as HTML
     """
     try:
+        logger.info("=" * 60)
+        logger.info("Starting reply_to_new_comments workflow")
+        logger.info(f"LLM Provider: {llm_provider}")
+        logger.info("=" * 60)
+        
         from pathlib import Path
         from config import Settings
         from utils import StateManager, RateLimiter
         from src import MoltbookClient, WorkflowTasks
         
+        # Ensure directories exist
+        logger.info("Creating necessary directories...")
+        Settings.create_directories()
+        
+        # Validate settings
+        logger.info("Validating settings...")
+        Settings.validate()
+        
         # Initialize components
+        logger.info("Initializing workflow components...")
         client = MoltbookClient()
         state_manager = StateManager(Settings.PROCESSED_COMMENTS_FILE)
         rate_limiter = RateLimiter(
@@ -198,49 +221,64 @@ def reply_to_new_comments(llm_provider: str = "openai") -> str:
         workflow = WorkflowTasks(client, state_manager, rate_limiter)
         
         # Check for new comments
+        logger.info("Checking for new comments...")
         new_comments = workflow.task1_check_new_comments()
         
         if not new_comments:
+            logger.info("No new comments found")
             return """
-            <div style="padding: 15px; background-color: #fff3cd; border: 1px solid #ffc107; 
+            <div style="padding: 15px; background-color: #fff3cd; border: 1px solid #ffc107;
                         border-radius: 6px; color: #856404;">
                 <strong>ℹ️ No New Comments</strong><br>
                 No new comments found on your posts.
             </div>
             """
         
+        logger.info(f"Found {len(new_comments)} new comment(s)")
+        
         # Build context
+        logger.info("Building context for comments...")
         enriched_comments = workflow.task2_build_context(new_comments)
         
         if not enriched_comments:
+            logger.error("Failed to build context for comments")
             return """
-            <div style="padding: 15px; background-color: #f8d7da; border: 1px solid #f5c6cb; 
+            <div style="padding: 15px; background-color: #f8d7da; border: 1px solid #f5c6cb;
                         border-radius: 6px; color: #721c24;">
                 <strong>❌ Error</strong><br>
                 Failed to build context for comments.
             </div>
             """
         
+        logger.info(f"Built context for {len(enriched_comments)} comment(s)")
+        
         # Generate responses
+        logger.info(f"Generating responses using {llm_provider}...")
         comments_with_responses = workflow.task3_generate_responses(
             enriched_comments,
             provider=llm_provider
         )
         
         if not comments_with_responses:
+            logger.error("Failed to generate responses")
             return """
-            <div style="padding: 15px; background-color: #f8d7da; border: 1px solid #f5c6cb; 
+            <div style="padding: 15px; background-color: #f8d7da; border: 1px solid #f5c6cb;
                         border-radius: 6px; color: #721c24;">
                 <strong>❌ Error</strong><br>
                 Failed to generate responses.
             </div>
             """
         
+        logger.info(f"Generated {len(comments_with_responses)} response(s)")
+        
         # Send replies
+        logger.info("Sending replies...")
         results = workflow.task4_send_replies(comments_with_responses, dry_run=False)
         
+        logger.info(f"Workflow complete: {results['success']} successful, {results['failed']} failed")
+        
         return f"""
-        <div style="padding: 15px; background-color: #d4edda; border: 1px solid #c3e6cb; 
+        <div style="padding: 15px; background-color: #d4edda; border: 1px solid #c3e6cb;
                     border-radius: 6px; color: #155724;">
             <strong>✅ Success</strong><br>
             Processed {len(new_comments)} new comment(s).<br>
@@ -249,12 +287,129 @@ def reply_to_new_comments(llm_provider: str = "openai") -> str:
         </div>
         """
         
-    except Exception as e:
+    except ValueError as e:
+        # Configuration/validation errors
+        logger.error(f"Configuration error: {e}", exc_info=True)
         return f"""
-        <div style="padding: 15px; background-color: #f8d7da; border: 1px solid #f5c6cb; 
+        <div style="padding: 15px; background-color: #f8d7da; border: 1px solid #f5c6cb;
+                    border-radius: 6px; color: #721c24;">
+            <strong>❌ Configuration Error</strong><br>
+            {str(e)}<br><br>
+            <small>Please check your environment variables and API keys.</small>
+        </div>
+        """
+    except ImportError as e:
+        # Import errors
+        logger.error(f"Import error: {e}", exc_info=True)
+        return f"""
+        <div style="padding: 15px; background-color: #f8d7da; border: 1px solid #f5c6cb;
+                    border-radius: 6px; color: #721c24;">
+            <strong>❌ Import Error</strong><br>
+            {str(e)}<br><br>
+            <small>There may be a module dependency issue.</small>
+        </div>
+        """
+    except Exception as e:
+        # General errors
+        logger.error(f"Unexpected error: {e}", exc_info=True)
+        return f"""
+        <div style="padding: 15px; background-color: #f8d7da; border: 1px solid #f5c6cb;
                     border-radius: 6px; color: #721c24;">
             <strong>❌ Error</strong><br>
-            {str(e)}
+            {str(e)}<br><br>
+            <small>Check the console logs for more details.</small>
+        </div>
+        """
+
+
+def post_gandalf_quote() -> str:
+    """
+    Post a Gandalf quote to /m/lotr.
+    
+    Returns:
+        Status message as HTML
+    """
+    try:
+        logger.info("=" * 60)
+        logger.info("Starting Gandalf quote posting")
+        logger.info("=" * 60)
+        
+        from config import Settings
+        from src import MoltbookClient, WorkflowTasks
+        from utils import StateManager, RateLimiter
+        
+        # Ensure directories exist
+        logger.info("Creating necessary directories...")
+        Settings.create_directories()
+        
+        # Validate settings
+        logger.info("Validating settings...")
+        Settings.validate()
+        
+        # Initialize components
+        logger.info("Initializing workflow components...")
+        client = MoltbookClient()
+        state_manager = StateManager(Settings.PROCESSED_COMMENTS_FILE)
+        rate_limiter = RateLimiter(
+            cooldown_seconds=Settings.COMMENT_COOLDOWN_SECONDS,
+            daily_limit=Settings.DAILY_COMMENT_LIMIT
+        )
+        workflow = WorkflowTasks(client, state_manager, rate_limiter)
+        
+        # Post Gandalf quote
+        logger.info("Posting Gandalf quote to /m/lotr...")
+        success = workflow.task7_post_gandalf_quote(dry_run=False)
+        
+        if success:
+            logger.info("Successfully posted Gandalf quote")
+            return """
+            <div style="padding: 15px; background-color: #d4edda; border: 1px solid #c3e6cb;
+                        border-radius: 6px; color: #155724;">
+                <strong>✅ Success</strong><br>
+                Successfully posted a Gandalf quote to /m/lotr!
+            </div>
+            """
+        else:
+            logger.warning("Failed to post Gandalf quote")
+            return """
+            <div style="padding: 15px; background-color: #f8d7da; border: 1px solid #f5c6cb;
+                        border-radius: 6px; color: #721c24;">
+                <strong>❌ Failed</strong><br>
+                Could not post Gandalf quote. Check logs for details.
+            </div>
+            """
+        
+    except ValueError as e:
+        # Configuration/validation errors
+        logger.error(f"Configuration error: {e}", exc_info=True)
+        return f"""
+        <div style="padding: 15px; background-color: #f8d7da; border: 1px solid #f5c6cb;
+                    border-radius: 6px; color: #721c24;">
+            <strong>❌ Configuration Error</strong><br>
+            {str(e)}<br><br>
+            <small>Please check your environment variables and API keys.</small>
+        </div>
+        """
+    except ImportError as e:
+        # Import errors
+        logger.error(f"Import error: {e}", exc_info=True)
+        return f"""
+        <div style="padding: 15px; background-color: #f8d7da; border: 1px solid #f5c6cb;
+                    border-radius: 6px; color: #721c24;">
+            <strong>❌ Import Error</strong><br>
+            {str(e)}<br><br>
+            <small>There may be a module dependency issue.</small>
+        </div>
+        """
+    except Exception as e:
+        # General errors
+        logger.error(f"Unexpected error: {e}", exc_info=True)
+        return f"""
+        <div style="padding: 15px; background-color: #f8d7da; border: 1px solid #f5c6cb;
+                    border-radius: 6px; color: #721c24;">
+            <strong>❌ Error</strong><br>
+            {str(e)}<br><br>
+            <small>Check the console logs for more details.</small>
         </div>
         """
 
