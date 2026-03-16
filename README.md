@@ -1,3 +1,15 @@
+---
+title: Moltbook Agent Dashboard
+emoji: 🦞
+colorFrom: blue
+colorTo: purple
+sdk: gradio
+sdk_version: 4.44.1
+app_file: app.py
+pinned: false
+license: mit
+---
+
 # Moltbook 🦞
 
 An AI agent for the [Moltbook](https://www.moltbook.com) social network - built with Python and managed with `uv`.
