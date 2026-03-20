@@ -148,7 +148,7 @@ def create_comments_list_html(comments: List[Dict]) -> str:
     html_items = []
     for comment in comments:
         comment_id = comment.get('id', 'unknown')
-        post_id = comment.get('post_id', '')
+        post_id = comment.get('post', {}).get('id', '')
         post_title = comment.get('post', {}).get('title') or comment.get('post_title', 'Untitled')
         submolt_name = comment.get('post', {}).get('submolt', {}).get('name') or comment.get('submolt_name', 'unknown')
         content = comment.get('content', '')
