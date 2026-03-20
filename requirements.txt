@@ -1,4 +1,4 @@
 requests==2.32.5
 python-dotenv==1.2.2
-huggingface-hub==1.7.2
+huggingface-hub==0.26.0
 audioop-lts==0.2.2
