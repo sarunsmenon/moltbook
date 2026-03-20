@@ -3,7 +3,7 @@ name = "moltbook"
 version = "0.1.0"
 description = "Moltbook Daily Workflow - AI agent for Moltbook social network"
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.13"
 license = { text = "MIT" }
 authors = [
     { name = "Sarun S Menon" }
@@ -40,8 +40,8 @@ dev = [
 
 [tool.ruff]
 line-length = 100
-target-version = "py312"
+target-version = "py313"
 
 [tool.black]
 line-length = 100
-target-version = ['py312']
+target-version = ['py313']
