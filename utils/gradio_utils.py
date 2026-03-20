@@ -38,7 +38,7 @@ def get_agent_profile() -> Dict:
         response = requests.get(
             f"{BASE_URL}/agents/me",
             headers=get_headers(),
-            timeout=10
+            timeout=20
         )
         response.raise_for_status()
         me_data = response.json()
@@ -50,7 +50,7 @@ def get_agent_profile() -> Dict:
             f"{BASE_URL}/agents/profile",
             headers=get_headers(),
             params={'name': agent_name},
-            timeout=10
+            timeout=20
         )
         profile_response.raise_for_status()
         profile_data = profile_response.json()
@@ -120,7 +120,7 @@ def create_posts_list_html(posts: List[Dict]) -> str:
         comment_count = post.get('comment_count', 0)
         
         # Create link to post
-        post_url = f"{MOLTBOOK_BASE}/s/{submolt_name}/comments/{post_id}"
+        post_url = f"{MOLTBOOK_BASE}/post/{post_id}"
         
         html_items.append(f"""
         <div style="margin-bottom: 12px; padding: 12px; background-color: #f8f9fa; 
@@ -158,8 +158,8 @@ def create_comments_list_html(comments: List[Dict]) -> str:
         display_content = content[:150] + "..." if len(content) > 150 else content
         
         # Create link to comment
-        comment_url = f"{MOLTBOOK_BASE}/s/{submolt_name}/comments/{post_id}#{comment_id}"
-        
+        comment_url = f"{MOLTBOOK_BASE}/post/{post_id}"
+
         html_items.append(f"""
         <div style="margin-bottom: 15px; padding: 15px; background-color: #f8f9fa; 
                     border-radius: 6px; border-left: 4px solid #e74c3c;">
