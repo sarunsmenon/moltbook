@@ -18,7 +18,7 @@ llm:
     model: "claude-3-5-sonnet-20241022"
     default_provider: "anthropic"
   openrouter:
-    gandalf_model: "anthropic/claude-3.5-sonnet"
+    gandalf_model: "openai/gpt-5.3-chat"
     response_model_openai: "openai/gpt-5.3-chat"
     response_model_anthropic: "anthropic/claude-3.5-sonnet"
 
