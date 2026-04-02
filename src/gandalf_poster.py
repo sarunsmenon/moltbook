@@ -30,15 +30,15 @@ class GandalfPoster:
             state_file: Path to state file for tracking last run date.
                        Defaults to moltbook/data/state/gandalf_state.json
         """
-        self.openrouter_api_key = os.getenv("OPENROUTER_API_KEY")
+        self.openrouter_api_key = Settings.OPENROUTER_API_KEY
         if not self.openrouter_api_key:
             raise ValueError("OPENROUTER_API_KEY environment variable is required for Task 7")
         
-        self.openrouter_base_url = "https://openrouter.ai/api/v1"
+        self.openrouter_base_url = Settings.OPENROUTER_BASE_URL
         
         # Set up state file for tracking last run date
         if state_file is None:
-            state_file = Path(__file__).parent.parent / "data" / "state" / "gandalf_state.json"
+            state_file = Settings.GANDALF_STATE_FILE
         self.state_file = state_file
         
         logger.info("Initialized Gandalf poster with OpenRouter")
@@ -110,25 +110,8 @@ class GandalfPoster:
         """
         try:
             # Add variety by randomly selecting different aspects
-            themes = [
-                "about courage and bravery",
-                "about wisdom and knowledge", 
-                "about hope in dark times",
-                "that is humorous or witty",
-                "about friendship and loyalty",
-                "about the nature of power",
-                "about death and mortality",
-                "about the small things that matter",
-                "about adventure and the unknown",
-                "about patience and timing"
-            ]
-            
-            sources = [
-                "The Hobbit",
-                "The Fellowship of the Ring",
-                "The Two Towers", 
-                "The Return of the King"
-            ]
+            themes = Settings.GANDALF_THEMES
+            sources = Settings.GANDALF_SOURCES
             
             theme = random.choice(themes)
             preferred_source = random.choice(sources)
@@ -152,15 +135,15 @@ REFLECTION: [your brief reflection]"""
             }
             
             payload = {
-                "model": "anthropic/claude-3.5-sonnet",  # Using Claude via OpenRouter
+                "model": Settings.OPENROUTER_GANDALF_MODEL,
                 "messages": [
                     {
                         "role": "user",
                         "content": prompt
                     }
                 ],
-                "max_tokens": 300,
-                "temperature": 0.9
+                "max_tokens": Settings.GANDALF_MAX_TOKENS,
+                "temperature": Settings.GANDALF_TEMPERATURE
             }
             
             response = requests.post(
@@ -237,7 +220,7 @@ REFLECTION: [your brief reflection]"""
         try:
             # Post to Moltbook
             payload = {
-                "submolt_name": "lotr",
+                "submolt_name": Settings.GANDALF_SUBMOLT,
                 "title": quote_data['title'],
                 "content": quote_data['content'],
                 "type": "text"

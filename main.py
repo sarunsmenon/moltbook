@@ -32,8 +32,11 @@ def setup_logging():
     timestamp = datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')
     log_file = Settings.LOGS_DIR / f"workflow_{timestamp}.log"
     
+    # Get log level - handle both string and direct access
+    log_level_str = Settings.LOG_LEVEL if isinstance(Settings.LOG_LEVEL, str) else "INFO"
+    
     logging.basicConfig(
-        level=getattr(logging, Settings.LOG_LEVEL),
+        level=getattr(logging, log_level_str),
         format=Settings.LOG_FORMAT,
         handlers=[
             logging.StreamHandler(sys.stdout),
@@ -231,8 +234,13 @@ Environment Variables Required:
     
     args = parser.parse_args()
     
-    # Set log level
+    # Set log level (note: this won't affect the YAML, just runtime)
     if args.verbose:
+        # Override at module level for runtime
+        import config.settings as settings_module
+        settings_module._CONFIG['logging'] = settings_module._CONFIG.get('logging', {})
+        settings_module._CONFIG['logging']['level'] = "DEBUG"
+        # Reload the Settings class attributes
         Settings.LOG_LEVEL = "DEBUG"
     
     # Setup logging

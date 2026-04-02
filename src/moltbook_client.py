@@ -136,10 +136,10 @@ class MoltbookClient:
             posts = []
             cursor = None
             pages_checked = 0
-            max_pages = 10
+            max_pages = Settings.MAX_PAGES_TO_SEARCH
             
             while len(posts) < limit and pages_checked < max_pages:
-                params = {'sort': 'new', 'limit': 25}
+                params = {'sort': 'new', 'limit': Settings.POSTS_PER_PAGE}
                 if cursor:
                     params['cursor'] = cursor
                 

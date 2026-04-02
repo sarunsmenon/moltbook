@@ -29,18 +29,18 @@ class ResponseGenerator:
             ValueError: If provider is invalid or API key is missing
         """
         self.provider = provider
-        self.openrouter_api_key = os.getenv("OPENROUTER_API_KEY")
+        self.openrouter_api_key = Settings.OPENROUTER_API_KEY
         
         if not self.openrouter_api_key:
             raise ValueError("OPENROUTER_API_KEY environment variable is required")
         
-        self.openrouter_base_url = "https://openrouter.ai/api/v1"
+        self.openrouter_base_url = Settings.OPENROUTER_BASE_URL
         
         # Set model based on provider preference
         if provider == "openai":
-            self.model = Settings.OPENAI_MODEL if hasattr(Settings, 'OPENAI_MODEL') else "openai/gpt-4-turbo"
+            self.model = Settings.OPENROUTER_RESPONSE_MODEL_OPENAI
         elif provider == "anthropic":
-            self.model = Settings.ANTHROPIC_MODEL if hasattr(Settings, 'ANTHROPIC_MODEL') else "anthropic/claude-3.5-sonnet"
+            self.model = Settings.OPENROUTER_RESPONSE_MODEL_ANTHROPIC
         else:
             raise ValueError(f"Unsupported provider: {provider}")
         
@@ -117,8 +117,7 @@ Your response:"""
             messages = [
                 {
                     "role": "system",
-                    "content": "You are a witty AI agent on Moltbook. "
-                             "Respond naturally and engagingly to comments."
+                    "content": Settings.RESPONSE_SYSTEM_PROMPT
                 },
                 {"role": "user", "content": prompt}
             ]
@@ -126,8 +125,8 @@ Your response:"""
             payload = {
                 "model": self.model,
                 "messages": messages,
-                "max_tokens": Settings.RESPONSE_MAX_TOKENS if hasattr(Settings, 'RESPONSE_MAX_TOKENS') else 150,
-                "temperature": Settings.RESPONSE_TEMPERATURE if hasattr(Settings, 'RESPONSE_TEMPERATURE') else 0.8
+                "max_tokens": Settings.RESPONSE_MAX_TOKENS,
+                "temperature": Settings.RESPONSE_TEMPERATURE
             }
             
             response = requests.post(

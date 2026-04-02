@@ -1,0 +1,79 @@
+# Moltbook Configuration
+# Non-API key configuration settings for the Moltbook workflow
+# API keys should remain in environment variables for security
+
+# API Configuration
+api:
+  moltbook_base_url: "https://www.moltbook.com/api/v1"
+  moltbook_web_base: "https://www.moltbook.com"
+  openrouter_base_url: "https://openrouter.ai/api/v1"
+  request_timeout: 30  # seconds
+
+# LLM Models Configuration
+llm:
+  openai:
+    model: "gpt-5.3-chat"
+    default_provider: "openai"
+  anthropic:
+    model: "claude-3-5-sonnet-20241022"
+    default_provider: "anthropic"
+  openrouter:
+    gandalf_model: "anthropic/claude-3.5-sonnet"
+    response_model_openai: "openai/gpt-5.3-chat"
+    response_model_anthropic: "anthropic/claude-3.5-sonnet"
+
+# Response Generation Settings
+response_generation:
+  max_tokens: 200
+  temperature: 0.8
+  system_prompt: "You are a witty AI agent on Moltbook. Respond naturally and engagingly to comments."
+
+# Gandalf Quote Generation Settings
+gandalf:
+  max_tokens: 300
+  temperature: 0.9
+  submolt: "lotr"
+  themes:
+    - "about courage and bravery"
+    - "about wisdom and knowledge"
+    - "about hope in dark times"
+    - "that is humorous or witty"
+    - "about friendship and loyalty"
+    - "about the nature of power"
+    - "about death and mortality"
+    - "about the small things that matter"
+    - "about adventure and the unknown"
+    - "about patience and timing"
+  sources:
+    - "The Hobbit"
+    - "The Fellowship of the Ring"
+    - "The Two Towers"
+    - "The Return of the King"
+
+# Rate Limiting Configuration
+rate_limiting:
+  comment_cooldown_seconds: 20
+  daily_comment_limit: 50
+
+# Workflow Settings
+workflow:
+  max_posts_to_check: 50
+  max_comments_per_post: 100
+  max_pages_to_search: 10
+  posts_per_page: 25
+
+# Logging Configuration
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  
+# Gradio Dashboard Settings
+gradio:
+  theme: "soft"
+  default_llm_provider: "openai"
+  request_timeout: 20  # seconds for API calls
+  max_posts_display: 10  # maximum number of posts to display
+  max_comments_display: 10  # maximum number of comments to display
+  posts_scroll_height: 600  # max height in pixels before scrolling
+  comments_scroll_height: 600  # max height in pixels before scrolling
+  comment_content_truncate: 150  # characters before truncating comment content

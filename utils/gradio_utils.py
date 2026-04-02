@@ -18,17 +18,16 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-BASE_URL = "https://www.moltbook.com/api/v1"
-MOLTBOOK_BASE = "https://www.moltbook.com"
+# Import Settings for configuration
+from config import Settings
+
+BASE_URL = Settings.MOLTBOOK_BASE_URL
+MOLTBOOK_BASE = Settings.MOLTBOOK_WEB_BASE
 
 
 def get_headers() -> Dict[str, str]:
     """Get API headers with authentication"""
-    api_key = os.getenv('MOLTBOOK_API_KEY')
-    return {
-        "Authorization": f"Bearer {api_key}",
-        "Content-Type": "application/json"
-    }
+    return Settings.get_headers()
 
 
 def get_agent_profile() -> Dict:
@@ -38,7 +37,7 @@ def get_agent_profile() -> Dict:
         response = requests.get(
             f"{BASE_URL}/agents/me",
             headers=get_headers(),
-            timeout=20
+            timeout=Settings.GRADIO_REQUEST_TIMEOUT
         )
         response.raise_for_status()
         me_data = response.json()
@@ -50,7 +49,7 @@ def get_agent_profile() -> Dict:
             f"{BASE_URL}/agents/profile",
             headers=get_headers(),
             params={'name': agent_name},
-            timeout=20
+            timeout=Settings.GRADIO_REQUEST_TIMEOUT
         )
         profile_response.raise_for_status()
         profile_data = profile_response.json()
@@ -111,8 +110,13 @@ def create_posts_list_html(posts: List[Dict]) -> str:
     if not posts:
         return "<p style='color: #6c757d;'>No posts found</p>"
     
+    # Limit to configured max posts
+    max_posts = Settings.GRADIO_MAX_POSTS_DISPLAY
+    limited_posts = posts[:max_posts]
+    total_count = len(posts)
+    
     html_items = []
-    for post in posts:
+    for post in limited_posts:
         post_id = post.get('id', '')
         title = post.get('title', 'Untitled')
         submolt_name = post.get('submolt', {}).get('name') or post.get('submolt_name', 'unknown')
@@ -137,7 +141,23 @@ def create_posts_list_html(posts: List[Dict]) -> str:
         </div>
         """)
     
-    return "".join(html_items)
+    # Add info message if there are more posts
+    posts_html = "".join(html_items)
+    if total_count > max_posts:
+        posts_html += f"""
+        <div style="margin-top: 10px; padding: 10px; background-color: #e7f3ff;
+                    border-radius: 6px; text-align: center; color: #0066cc; font-size: 13px;">
+            Showing {max_posts} of {total_count} posts
+        </div>
+        """
+    
+    # Wrap in scrollable container
+    scroll_height = Settings.GRADIO_POSTS_SCROLL_HEIGHT
+    return f"""
+    <div style="max-height: {scroll_height}px; overflow-y: auto; padding-right: 5px;">
+        {posts_html}
+    </div>
+    """
 
 
 def create_comments_list_html(comments: List[Dict]) -> str:
@@ -145,8 +165,13 @@ def create_comments_list_html(comments: List[Dict]) -> str:
     if not comments:
         return "<p style='color: #6c757d;'>No comments found</p>"
     
+    # Limit to configured max comments
+    max_comments = Settings.GRADIO_MAX_COMMENTS_DISPLAY
+    limited_comments = comments[:max_comments]
+    total_count = len(comments)
+    
     html_items = []
-    for comment in comments:
+    for comment in limited_comments:
         comment_id = comment.get('id', 'unknown')
         post_id = comment.get('post', {}).get('id', '')
         post_title = comment.get('post', {}).get('title') or comment.get('post_title', 'Untitled')
@@ -155,7 +180,8 @@ def create_comments_list_html(comments: List[Dict]) -> str:
         upvotes = comment.get('upvotes', 0)
         
         # Truncate content if too long
-        display_content = content[:150] + "..." if len(content) > 150 else content
+        truncate_length = Settings.GRADIO_COMMENT_CONTENT_TRUNCATE
+        display_content = content[:truncate_length] + "..." if len(content) > truncate_length else content
         
         # Create link to comment
         comment_url = f"{MOLTBOOK_BASE}/post/{post_id}"
@@ -178,7 +204,23 @@ def create_comments_list_html(comments: List[Dict]) -> str:
         </div>
         """)
     
-    return "".join(html_items)
+    # Add info message if there are more comments
+    comments_html = "".join(html_items)
+    if total_count > max_comments:
+        comments_html += f"""
+        <div style="margin-top: 10px; padding: 10px; background-color: #fff3e0;
+                    border-radius: 6px; text-align: center; color: #e65100; font-size: 13px;">
+            Showing {max_comments} of {total_count} comments
+        </div>
+        """
+    
+    # Wrap in scrollable container
+    scroll_height = Settings.GRADIO_COMMENTS_SCROLL_HEIGHT
+    return f"""
+    <div style="max-height: {scroll_height}px; overflow-y: auto; padding-right: 5px;">
+        {comments_html}
+    </div>
+    """
 
 
 def reply_to_new_comments(llm_provider: str = "openai") -> str:
