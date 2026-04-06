@@ -20,33 +20,8 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from config import Settings
-from utils import StateManager, RateLimiter
+from utils import StateManager, RateLimiter, setup_logging
 from src import MoltbookClient, WorkflowTasks, DataArchiver
-
-
-def setup_logging():
-    """Configure logging for the workflow."""
-    Settings.create_directories()
-    
-    # Create log file with timestamp
-    timestamp = datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')
-    log_file = Settings.LOGS_DIR / f"workflow_{timestamp}.log"
-    
-    # Get log level - handle both string and direct access
-    log_level_str = Settings.LOG_LEVEL if isinstance(Settings.LOG_LEVEL, str) else "INFO"
-    
-    logging.basicConfig(
-        level=getattr(logging, log_level_str),
-        format=Settings.LOG_FORMAT,
-        handlers=[
-            logging.StreamHandler(sys.stdout),
-            logging.FileHandler(log_file, mode='w')
-        ]
-    )
-    
-    # Log the file location
-    logger = logging.getLogger(__name__)
-    logger.info(f"Logging to: {log_file}")
 
 
 def run_workflow(

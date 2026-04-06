@@ -56,20 +56,31 @@ _CONFIG = _load_yaml_config()
 
 class Settings:
     """Central configuration for Moltbook workflow."""
-    
-    # Base directories
+
+    # -------------------------------------------------------------------------
+    # Base directory (always computed – not in YAML because it's runtime-only)
+    # -------------------------------------------------------------------------
     BASE_DIR = Path(__file__).parent.parent
-    DATA_DIR = BASE_DIR / "data"
-    LOGS_DIR = BASE_DIR / "logs"
     CONFIG_DIR = BASE_DIR / "config"
-    
-    # Data subdirectories
-    ARCHIVES_DIR = DATA_DIR / "archives"
-    STATE_DIR = DATA_DIR / "state"
-    
-    # State Files
-    PROCESSED_COMMENTS_FILE = STATE_DIR / "processed_comments.json"
-    GANDALF_STATE_FILE = STATE_DIR / "gandalf_state.json"
+
+    # -------------------------------------------------------------------------
+    # Paths (relative parts come from config.yaml so they can be customised
+    # without touching code)
+    # -------------------------------------------------------------------------
+    DATA_DIR    = BASE_DIR / _get_config_value(_CONFIG, 'paths', 'data_dir',   default="data")
+    LOGS_DIR    = BASE_DIR / _get_config_value(_CONFIG, 'paths', 'logs_dir',   default="logs")
+
+    ARCHIVES_DIR = BASE_DIR / _get_config_value(_CONFIG, 'paths', 'archives_dir',
+                                                 default="data/archives")
+    STATE_DIR    = BASE_DIR / _get_config_value(_CONFIG, 'paths', 'state_dir',
+                                                 default="data/state")
+
+    PROCESSED_COMMENTS_FILE = BASE_DIR / _get_config_value(
+        _CONFIG, 'paths', 'processed_comments_file',
+        default="data/state/processed_comments.json")
+    GANDALF_STATE_FILE = BASE_DIR / _get_config_value(
+        _CONFIG, 'paths', 'gandalf_state_file',
+        default="data/state/gandalf_state.json")
     
     # API Configuration (from YAML)
     MOLTBOOK_BASE_URL = _get_config_value(_CONFIG, 'api', 'moltbook_base_url', 
@@ -134,7 +145,8 @@ class Settings:
     LOG_LEVEL = _get_config_value(_CONFIG, 'logging', 'level', default="INFO")
     LOG_FORMAT = _get_config_value(_CONFIG, 'logging', 'format', 
                                     default="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
-    LOG_FILE = LOGS_DIR / "daily_workflow.log"
+    LOG_FILE = BASE_DIR / _get_config_value(_CONFIG, 'paths', 'log_file',
+                                             default="logs/daily_workflow.log")
     
     # Gradio Settings (from YAML)
     GRADIO_THEME = _get_config_value(_CONFIG, 'gradio', 'theme', default="soft")

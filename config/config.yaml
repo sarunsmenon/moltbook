@@ -2,6 +2,16 @@
 # Non-API key configuration settings for the Moltbook workflow
 # API keys should remain in environment variables for security
 
+# File Paths (relative to project root)
+paths:
+  data_dir: "data"
+  archives_dir: "data/archives"
+  state_dir: "data/state"
+  processed_comments_file: "data/state/processed_comments.json"
+  gandalf_state_file: "data/state/gandalf_state.json"
+  logs_dir: "logs"
+  log_file: "logs/daily_workflow.log"
+
 # API Configuration
 api:
   moltbook_base_url: "https://www.moltbook.com/api/v1"

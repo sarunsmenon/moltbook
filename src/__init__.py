@@ -1,15 +1,22 @@
 """Source modules for Moltbook workflow."""
 
-from .moltbook_client import MoltbookClient
-from .response_generator import ResponseGenerator
-from .workflow_tasks import WorkflowTasks
-from .data_archiver import DataArchiver
-from .gandalf_poster import GandalfPoster
+from .core import MoltbookClient, DataArchiver
+from .workflow import WorkflowTasks
+from .tasks import (
+    BuildContextTask,
+    CheckNewCommentsTask,
+    GenerateResponsesTask,
+    PostGandalfQuoteTask,
+    SendRepliesTask,
+)
 
 __all__ = [
     'MoltbookClient',
-    'ResponseGenerator',
-    'WorkflowTasks',
     'DataArchiver',
-    'GandalfPoster'
+    'WorkflowTasks',
+    'CheckNewCommentsTask',
+    'BuildContextTask',
+    'GenerateResponsesTask',
+    'SendRepliesTask',
+    'PostGandalfQuoteTask',
 ]

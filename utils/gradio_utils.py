@@ -239,7 +239,6 @@ def reply_to_new_comments(llm_provider: str = "openai") -> str:
         logger.info(f"LLM Provider: {llm_provider}")
         logger.info("=" * 60)
         
-        from pathlib import Path
         from config import Settings
         from utils import StateManager, RateLimiter
         from src import MoltbookClient, WorkflowTasks

@@ -8,7 +8,6 @@ using OpenAI or Anthropic APIs via OpenRouter.
 import logging
 import requests
 from typing import Dict, Optional
-import os
 
 from config import Settings
 

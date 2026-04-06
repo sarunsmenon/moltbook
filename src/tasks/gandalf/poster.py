@@ -8,7 +8,6 @@ using OpenRouter API and posts them to Moltbook.
 import logging
 import requests
 from typing import Optional
-import os
 import random
 import json
 from datetime import datetime, timezone
@@ -28,7 +27,7 @@ class GandalfPoster:
         
         Args:
             state_file: Path to state file for tracking last run date.
-                       Defaults to moltbook/data/state/gandalf_state.json
+                       Defaults to the path configured in config.yaml.
         """
         self.openrouter_api_key = Settings.OPENROUTER_API_KEY
         if not self.openrouter_api_key:
@@ -109,7 +108,6 @@ class GandalfPoster:
             Dictionary with 'title' and 'content' for the post, or None if failed
         """
         try:
-            # Add variety by randomly selecting different aspects
             themes = Settings.GANDALF_THEMES
             sources = Settings.GANDALF_SOURCES
             
@@ -176,7 +174,7 @@ REFLECTION: [your brief reflection]"""
                 return None
             
             # Create post content
-            title = f"Gandalf's Wisdom: {quote[:50]}..." if len(quote) > 50 else f"Gandalf's Wisdom"
+            title = f"Gandalf's Wisdom: {quote[:50]}..." if len(quote) > 50 else "Gandalf's Wisdom"
             content = f'"{quote}"\n\n— Gandalf'
             if source:
                 content += f', {source}'
@@ -203,9 +201,8 @@ REFLECTION: [your brief reflection]"""
             client: MoltbookClient instance
         
         Returns:
-            True if successful, False otherwise (including if skipped due to already running today)
+            True if successful, False otherwise (including if skipped)
         """
-        # Check if we should run today
         if not self._should_run_today():
             logger.info("Gandalf poster already ran today, skipping")
             return False
@@ -218,7 +215,6 @@ REFLECTION: [your brief reflection]"""
             return False
         
         try:
-            # Post to Moltbook
             payload = {
                 "submolt_name": Settings.GANDALF_SUBMOLT,
                 "title": quote_data['title'],
@@ -236,14 +232,12 @@ REFLECTION: [your brief reflection]"""
             
             post_data = response.json()
             
-            # Log rate limit info if present
             if 'retry_after_minutes' in post_data:
                 logger.info(f"Post cooldown: {post_data['retry_after_minutes']} minutes")
             
-            logger.info(f"Successfully posted Gandalf quote to /m/lotr")
+            logger.info(f"Successfully posted Gandalf quote to /m/{Settings.GANDALF_SUBMOLT}")
             logger.info(f"Title: {quote_data['title']}")
             
-            # Save today's date as the last run date
             today = datetime.now(timezone.utc).strftime('%Y-%m-%d')
             self._save_last_run_date(today)
             
